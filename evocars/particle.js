@@ -18,7 +18,7 @@ class Particle {
     this.rays = [];
     this.index = 0;
     this.counter = 0;
-    this.highlighted = false;
+    this.showIntersections = false;
 
     for (let a = -45; a < 45; a += 15) {
       this.rays.push(new Ray(this.pos, radians(a)));
@@ -93,7 +93,7 @@ class Particle {
           if (d < record && d < this.sight) {
             record = d;
             closest = pt;
-            if(this.highlighted)
+            if(this.showIntersections)
             {
               let c = color('red');
               fill(c);
@@ -130,6 +130,7 @@ class Particle {
     steering.limit(this.maxforce);
     this.applyForce(steering);
     // console.log(output);
+    this.showIntersections = false;
   }
 
   bounds() {
@@ -156,8 +157,8 @@ class Particle {
   }
 
   highlight() {
-    this.highlighted = true;
     push();
+    this.showIntersections = true;
     translate(this.pos.x, this.pos.y);
     const heading = this.vel.heading();
     rotate(heading);
