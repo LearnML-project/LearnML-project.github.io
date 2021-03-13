@@ -18,6 +18,7 @@ class Particle {
     this.rays = [];
     this.index = 0;
     this.counter = 0;
+    this.highlighted = false;
 
     for (let a = -45; a < 45; a += 15) {
       this.rays.push(new Ray(this.pos, radians(a)));
@@ -92,6 +93,12 @@ class Particle {
           if (d < record && d < this.sight) {
             record = d;
             closest = pt;
+            if(this.highlighted)
+            {
+              let c = color('red');
+              fill(c);
+              ellipse(pt.x, pt.y, 15);
+            }
           }
         }
       }
@@ -149,6 +156,7 @@ class Particle {
   }
 
   highlight() {
+    this.highlighted = true;
     push();
     translate(this.pos.x, this.pos.y);
     const heading = this.vel.heading();

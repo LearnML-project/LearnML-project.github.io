@@ -11,6 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.1.0/dist/tf.min.js"></script>
 
   <link rel="stylesheet" href="dist/notifications.css">
@@ -187,10 +188,12 @@
                 </thead> -->
                 <tbody id="gamecontr">
                   <tr>
-                    <h6>Car Speed</h6>
+                    <h6>Car Speed (FPS)</h6>
                   </tr>
                   <tr>
                       <td id="speed">
+                      </td>
+                      <td id="speedtxt">
                       </td>
                   </tr>
                   <tr>
@@ -216,20 +219,30 @@
                       </td>
                   </tr> -->
                   <tr>
-                    <td><h6>Mutation Rate</h6></td>
+                    <td>
+                      <h6>Mutation Rate</h6>
+                    </td>
                     <td id="mut-rate">
                       </td>
-                  </tr>
-                  <tr>
-                    <td><h6>Lifespan</h6>
-                    </td>
-                      <td id="lifespan">
+                      <td id="mut-ratetxt">
                       </td>
                   </tr>
-                  <tr>
-                    <td><h6>Sight Range</h6>
-                    </td>
+                    <tr>
+                      <td>
+                        <h6>Lifespan</h6>
+                      </td>
+                      <td id="lifespan">
+                      </td>
+                      <td id="lifespantxt">
+                      </td>
+                  </tr>
+                    <tr>
+                      <td>
+                        <h6>Sight Range</h6>
+                        </td>
                       <td id="sight">
+                      </td>
+                      <td id="sighttxt">
                       </td>
                   </tr>
                   <tr>

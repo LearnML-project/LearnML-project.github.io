@@ -22,6 +22,7 @@ let start, end;
 
 let myCanvas;
 let speedSlider;
+let speedSliderTxt;
 let reloadTrack;
 let resetSystem;
 let forceNext;
@@ -29,14 +30,17 @@ let resetAll;
 
 // let inputTOTAL;
 let inputMUTATION_RATE;
+let inputMUTATION_RATEtxt;
 let inputLIFESPAN;
+let inputLIFESPANtxt;
 let inputSIGHT;
+let inputSIGHTtxt;
 
 let inside = [];
 let outside = [];
 let checkpoints = [];
 
-let myNotification;
+// let myNotification;
 
 // around 5-6 successfully completed rounds will make the fitness of 500+
 // so maxFitness is set to 500
@@ -110,8 +114,10 @@ function setup() {
     population[i] = new Particle();
   }
 
-  speedSlider = createSlider(1, 10, 1);
+  speedSlider = createSlider(15, 150, 30, 5);
   speedSlider.parent("speed");
+  speedSliderTxt = createElement('h6','')
+  speedSliderTxt.parent("speedtxt");
 
   reloadTrack = createButton('Load New Track');
   reloadTrack.mousePressed(buildTrack);
@@ -120,47 +126,28 @@ function setup() {
   // inputTOTAL = createInput();
   // inputTOTAL.parent("total");
 
-  inputMUTATION_RATE = createInput();
+  inputMUTATION_RATE = createSlider(0.1, 0.5, 0.1, 0.1);
   inputMUTATION_RATE.parent("mut-rate");
+  inputMUTATION_RATEtxt = createElement('h6','')
+  inputMUTATION_RATEtxt.parent("mut-ratetxt");
 
-  inputLIFESPAN = createInput();
+  inputLIFESPAN = createSlider(10, 100, 25, 5);
   inputLIFESPAN.parent("lifespan");
+  inputLIFESPANtxt = createElement('h6','')
+  inputLIFESPANtxt.parent("lifespantxt");
 
-  inputSIGHT = createInput();
+  inputSIGHT = createSlider(10, 100, 50, 10);
   inputSIGHT.parent("sight");
+  inputSIGHTtxt = createElement('h6','')
+  inputSIGHTtxt.parent("sighttxt");
 
-  forceNext = createButton('Update Values');
+  forceNext = createButton('Next Generation');
   forceNext.mousePressed(forceNextGen);
   forceNext.parent("forcenext");
   
   forceNext = createButton('Reset Vehicles');
   forceNext.mousePressed(reSetUp);
   forceNext.parent("reset");
-
-  myNotification = window.createNotification({ 
-
-    // close on click
-    closeOnClick: true,
-  
-    // displays close button
-    displayCloseButton: false,
-  
-    // nfc-top-left
-    // nfc-bottom-right
-    // nfc-bottom-left
-    positionClass: 'nfc-top-right',
-  
-    // callback
-    onclick: false,
-  
-    // timeout in milliseconds
-    showDuration: 5000,
-  
-    // success, info, warning, error, and none
-    theme: 'success'
-    
-  });
-
 }
 
 function windowResized() {
@@ -184,63 +171,27 @@ function reSetUp() {
 }
 
 function forceNextGen() {
-  // if(inputTOTAL){
-  //   if(isNumeric(inputTOTAL.value()))
-  //   {
-  //     TOTAL = parseFloat(inputTOTAL.value());
-  //     myNotification({ 
-  //       title: 'Updated number of cars!',
-  //       message: 'New value: ' + TOTAL
-  //     });
-  //     inputTOTAL.value('');
-  //   }
-  // }
-
-  if(inputLIFESPAN){
-    if(isNumeric(inputLIFESPAN.value()))
-    {
-      LIFESPAN = parseFloat(inputLIFESPAN.value());
-      myNotification({ 
-        title: 'Updated lifespan!',
-        message: 'New value: ' + LIFESPAN
-      });
-      inputLIFESPAN.value('');
-    }
-  }
-
-  if(inputMUTATION_RATE){
-    if(isNumeric(inputMUTATION_RATE.value()))
-    {
-      MUTATION_RATE = parseFloat(inputMUTATION_RATE.value());
-      myNotification({ 
-        title: 'Updated mutation rate!',
-        message: 'New value: ' + MUTATION_RATE
-      });
-      inputMUTATION_RATE.value('');
-    }
-  }
-
-  if(inputSIGHT){
-    if(isNumeric(inputSIGHT.value()))
-    {
-      SIGHT = parseFloat(inputSIGHT.value());
-      myNotification({ 
-        title: 'Updated sight range!',
-        message: 'New value: ' + SIGHT
-      });
-      inputSIGHT.value('');
-    }
-  }
-  
   changeMap = true;
 }
 
 function draw() {
-  const cycles = speedSlider.value();
+  // const cycles = speedSlider.value();
+
+  fps = speedSlider.value();
+  LIFESPAN = inputLIFESPAN.value();
+  MUTATION_RATE = inputMUTATION_RATE.value();
+  SIGHT = inputSIGHT.value();
+
+  speedSliderTxt.html(fps, false);
+  inputMUTATION_RATEtxt.html(MUTATION_RATE, false);
+  inputLIFESPANtxt.html(LIFESPAN, false);
+  inputSIGHTtxt.html(SIGHT, false);
+
+  frameRate(fps);
   background(0);
 
   let bestP = population[0];
-  for (let n = 0; n < cycles; n++) {
+  // for (let n = 0; n < cycles; n++) {
     for (let particle of population) {
       particle.look(walls);
       particle.check(checkpoints);
@@ -281,7 +232,7 @@ function draw() {
       nextGeneration();
       generationCount++;
     }
-  }
+  // }
 
   for (let cp of checkpoints) {
     //strokeWeight(2);
